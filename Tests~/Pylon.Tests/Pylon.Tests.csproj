@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>Pylon.Tests</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.6.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Pylon.Core/Pylon.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../../realtime/src/replication.fixtures.json" Link="fixtures/replication.fixtures.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../../realtime/src/rewind.fixtures.json" Link="fixtures/rewind.fixtures.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../../sync/conformance/*.json" LinkBase="fixtures/conformance" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../../realtime/src/wire.fixtures.json" Link="fixtures/wire.fixtures.json" CopyToOutputDirectory="PreserveNewest" Condition="Exists('../../../realtime/src/wire.fixtures.json')" />
+  </ItemGroup>
+  <!-- The WebTransport plugin for this host, next to the test assembly, where DllImport finds it. -->
+  <ItemGroup>
+    <None Include="../../Plugins/macOS/libpylon_shard_client.dylib" Link="libpylon_shard_client.dylib" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOSPlatform('OSX')) And Exists('../../Plugins/macOS/libpylon_shard_client.dylib')" />
+    <None Include="../../Plugins/Linux/x86_64/libpylon_shard_client.so" Link="libpylon_shard_client.so" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOSPlatform('Linux')) And Exists('../../Plugins/Linux/x86_64/libpylon_shard_client.so')" />
+    <None Include="../../Plugins/Windows/x86_64/pylon_shard_client.dll" Link="pylon_shard_client.dll" CopyToOutputDirectory="PreserveNewest" Condition="$([MSBuild]::IsOSPlatform('Windows')) And Exists('../../Plugins/Windows/x86_64/pylon_shard_client.dll')" />
+  </ItemGroup>
+</Project>
